@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
+        StringBuilder sb = new StringBuilder();
         int n = Integer.parseInt(br.readLine());
         member [] members = new member[n];
 
@@ -20,8 +21,9 @@ public class Main {
 
         Arrays.sort(members);
         for (int i = 0; i < members.length; i++) {
-            System.out.println(members[i].age + " " + members[i].name);
+            sb.append(members[i].age + " " + members[i].name + "\n");
         }
+        System.out.println(sb);
     }
 
     public static class member implements Comparable<member> {
