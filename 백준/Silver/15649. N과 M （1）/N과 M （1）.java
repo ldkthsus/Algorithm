@@ -1,32 +1,30 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int n, m;
-    static boolean used[];
-    static int result[], arr[];
-    static StringBuilder sb;
+    public static int num[], result[], n, m;
+    public static boolean used[];
+    public static StringBuilder sb;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-        sb = new StringBuilder();
+
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        used = new boolean[n];
+        num = new int[n];
         result = new int[m];
-        arr = new int[n];
+        used = new boolean[n];
 
-        for (int i = 0; i < n; i++) {
-            arr[i] = i + 1;
+        for (int i = 1; i <= n; i++) {
+            num[i - 1] = i;
         }
+        sb = new StringBuilder();
         perm(0);
         System.out.println(sb);
-
     }
 
     public static void perm(int idx) {
@@ -37,9 +35,10 @@ public class Main {
             sb.append("\n");
             return;
         }
+
         for (int i = 0; i < n; i++) {
             if (!used[i]) {
-                result[idx] = arr[i];
+                result[idx] = num[i];
                 used[i] = true;
                 perm(idx + 1);
                 used[i] = false;
