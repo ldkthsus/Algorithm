@@ -1,53 +1,53 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+    import java.io.BufferedReader;
+    import java.io.IOException;
+    import java.io.InputStreamReader;
+    import java.util.Arrays;
+    import java.util.StringTokenizer;
 
-public class Main {
-	static int N, M, result[];
-	static StringBuilder sb;
-	static boolean used[];
-	static List <Integer> list;
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		
-		sb = new StringBuilder();
-		
-		N = sc.nextInt();
-		M = sc.nextInt();
-		
-		
-		used = new boolean [N];
-		result = new int [M];
-		list = new ArrayList<Integer>();
-		
-		for(int i=0;i<N;i++) {
-			list.add(sc.nextInt());
-		}
-		Collections.sort(list);
-		
-		perm(0);
-		System.out.println(sb.toString());
-	}
-	
-	public static void perm(int idx) {
-		if(idx == M) {
-			for(int i=0;i<M;i++) {
-				sb.append(result[i] + " ");
-			}
-			sb.append('\n');
-			return;
-		}
-		
-		for(int i=0;i<N;i++) {
-			if(!used[i]) {
-				result[idx] = list.get(i);
-				used[i] = true;
-				perm(idx+1);
-				used[i] = false;
-			}
-		}
-	}
+    public class Main {
+        public static int num[], result[], n, m;
+        public static boolean used[];
+        public static StringBuilder sb;
 
-}
+        public static void main(String[] args) throws IOException {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            StringTokenizer st;
+
+            st = new StringTokenizer(br.readLine());
+
+            n = Integer.parseInt(st.nextToken());
+            m = Integer.parseInt(st.nextToken());
+
+            num = new int[n];
+            result = new int[m];
+            used = new boolean[n];
+
+            st = new StringTokenizer(br.readLine());
+            for (int i = 0; i < n; i++) {
+                num[i] = Integer.parseInt(st.nextToken());
+            }
+            Arrays.sort(num);
+            sb = new StringBuilder();
+            perm(0);
+            System.out.println(sb);
+        }
+
+        public static void perm(int idx) {
+            if (idx == m) {
+                for (int i = 0; i < m; i++) {
+                    sb.append(result[i]).append(" ");
+                }
+                sb.append("\n");
+                return;
+            }
+
+            for (int i = 0; i < n; i++) {
+                if(!used[i]){
+                    result[idx] = num[i];
+                    used[i] = true;
+                    perm(idx + 1);
+                    used[i] = false;
+                }
+            }
+        }
+    }
