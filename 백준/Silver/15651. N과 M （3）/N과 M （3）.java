@@ -1,40 +1,42 @@
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M, number[], result[];
+    public static int num[], result[], n, m;
+    public static StringBuilder sb;
 
-	static StringBuilder sb ;
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		
-		N=sc.nextInt();
-		M=sc.nextInt();
-		
-		sb = new StringBuilder();
-		number = new int [N];
-		result = new int [M];
-		
-		for(int i=0;i<N;i++) {
-			number[i] = i+1;
-		}
-		
-		중복순열(0);
-		System.out.println(sb.toString());
-	}
-	
-	public static void 중복순열(int cnt) {
-		if(cnt == M) {
-			for(int i=0;i<M;i++) {
-			sb.append(result[i] + " ");
-			}
-			sb.append('\n'); 
-			return;
-		}
-		
-		for(int i=0;i<N;i++) {
-			result[cnt] = number[i];
-			중복순열(cnt+1);
-		}
-	}
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+
+        num = new int[n];
+        result = new int[m];
+
+        for (int i = 1; i <= n; i++) {
+            num[i - 1] = i;
+        }
+        sb = new StringBuilder();
+        perm(0);
+        System.out.println(sb);
+    }
+
+    public static void perm(int idx) {
+        if (idx == m) {
+            for (int i = 0; i < m; i++) {
+                sb.append(result[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for (int i = 0; i < n; i++) {
+            result[idx] = num[i];
+            perm(idx + 1);
+        }
+    }
 }
