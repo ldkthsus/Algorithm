@@ -1,42 +1,39 @@
-
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
+    public static int arr[], cnt, n, s;
 
-	static int N, S, result[], num, arr[], count;
-	
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine());
 
-	public static void main(String[] args) {
-		count=0;
-		Scanner sc = new Scanner(System.in);
-		N = sc.nextInt();
-		S = sc.nextInt();
-		
-		arr = new int[N];
-		result = new int [N];
-		for (int i = 0; i < N; i++) {
-			arr[i] = sc.nextInt();
-		}
+        n = Integer.parseInt(st.nextToken());
+        s = Integer.parseInt(st.nextToken());
 
-		comb(0, 0);
-		if(S == 0) {
-			System.out.println(count-1);
-			return;
-		}
-        System.out.println(count);
+        arr = new int[n];
+        st = new StringTokenizer(br.readLine());
 
-	}
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+        comb(0, 0);
+        if (s == 0)
+            System.out.println(cnt - 1);
+        else System.out.println(cnt);
 
-	public static void comb(int idx, int sum) {
-		
-		if(idx == N) {
-			if(sum==S)
-				count++;
-			return;
-		}
+    }
 
-		comb(idx+1, sum+arr[idx]);
-		comb(idx+1, sum);
-	}
-
+    public static void comb(int start, int sum) {
+        if (start == n) {
+            if (sum == s)
+                cnt++;
+            return;
+        }
+        comb(start + 1, sum + arr[start]);
+        comb(start + 1, sum);
+    }
 }
