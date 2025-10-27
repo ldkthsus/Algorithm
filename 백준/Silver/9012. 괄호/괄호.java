@@ -6,33 +6,35 @@ import java.util.Stack;
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int tc = Integer.parseInt(br.readLine());
+        int t = Integer.parseInt(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
-        for(int t = 0; t < tc; t++){
+        for (int tc = 0; tc < t; tc++) {
             String str = br.readLine();
-
             Stack<Character> stack = new Stack<>();
-            boolean check = true;
-            for(int i = 0; i < str.length(); i++){
-                if(stack.isEmpty()){
-                    if(str.charAt(i) == ')'){
-                        check = false;
-                        break;
+            for (int i = 0; i < str.length(); i++) {
+                char now = str.charAt(i);
+
+                if (stack.isEmpty()) {
+                    stack.push(now);
+                } else {
+                    if (now == '(') {
+                        stack.push(now);
+                    } else {
+                        if (stack.peek() == '(') {
+                            stack.pop();
+                        }
                     }
-                    stack.push(str.charAt(i));
-                }
-                else{
-                    char word = str.charAt(i);
-                    if(word == '(')
-                        stack.push(word);
-                    else
-                        stack.pop();
                 }
             }
-            if(!stack.isEmpty() || !check)
-                System.out.println("NO");
-            else
-                System.out.println("YES");
+
+            if (stack.isEmpty()) {
+                sb.append("YES");
+            } else {
+                sb.append("NO");
+            }
+            sb.append("\n");
         }
+        System.out.println(sb);
     }
 }
