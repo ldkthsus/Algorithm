@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -38,7 +35,7 @@ public class Main {
         }
         Arrays.sort(rank);
         StringBuilder sb = new StringBuilder();
-        Map<Integer, Integer> map = new HashMap<>();
+        Map<Integer, Integer> map = new TreeMap<>();
         int top = 0;
         for (int i = 1; i <= 9; i++) {
             if (rank[i].point == rank[i - 1].point) {
@@ -48,12 +45,8 @@ public class Main {
                 map.put(rank[i].idx, top);
             }
         }
-        int num = 1;
         for (int key : map.keySet()) {
-            if (key == num) {
-                sb.append(map.get(key)).append("\n");
-                num++;
-            }
+            sb.append(map.get(key)).append("\n");
         }
         System.out.println(sb);
     }
