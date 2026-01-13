@@ -1,60 +1,74 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st;
-        Deque<Integer> deq = new ArrayDeque<>();
-
         st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
+        Deque<Integer> deque = new ArrayDeque<>();
+        for (int i = 1; i <= n; i++) {
+            deque.offerLast(i);
+        }
 
-        int count = 0;
-
-        List<Integer> list = new ArrayList<Integer>();
+        int arr[] = new int[m];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < m; i++) {
-            list.add(Integer.parseInt(st.nextToken()));
+            arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        for (int i = 0; i < n; i++) {
-            deq.offer(i + 1);
-        }
-        int numIdx = 0;
-        while(m-- > 0) {
-            int num = list.get(numIdx);
-            int idx = findIndex(deq, num);
-            int mid = deq.size() / 2;
-
-            if(idx <= mid){
-                while(num != deq.peek()){
-                    deq.offerLast(deq.pollFirst());
-                    count++;
+        int idx = 0;
+        int ans = 0;
+        while (true) {
+            if (idx == m) {
+                break;
+            }
+            if (deque.peekFirst() == arr[idx]) {
+                idx++;
+                deque.pollFirst();
+            } else {
+                int cha = deque.size() / 2;
+                if (deque.size() % 2 != 0)
+                    cha++;
+                int cnt = 0;
+                boolean check = false;
+                for (int i = 0; i < cha; i++) {
+                    int num = deque.peekFirst();
+                    if (num == arr[idx]) {
+                        ans += cnt;
+                        check = true;
+                        idx++;
+                        deque.pollFirst();
+                        break;
+                    }
+                    cnt++;
+                    num = deque.pollFirst();
+                    deque.offerLast(num);
                 }
-            }else if(idx > mid){
-                while(num != deq.peek()){
-                    deq.offerFirst(deq.pollLast());
-                    count++;
+                if (!check) {
+                    cnt = 0;
+                    for (int i = 0; i < cha; i++) {
+                        int num = deque.pollLast();
+                        deque.offerFirst(num);
+                    }
+                    for (int i = 0; i < deque.size() - cha; i++) {
+                        int num = deque.pollLast();
+                        cnt++;
+                        if (num == arr[idx]) {
+                            ans += cnt;
+                            idx++;
+                            break;
+                        }
+                        deque.offerFirst(num);
+                    }
                 }
             }
-            deq.pollFirst();
-            numIdx++;
         }
-        System.out.println(count);
-    }
-    public static int findIndex(Deque<Integer> deq, int number){
-        Iterator<Integer> iterator = deq.iterator();
-        int index = 0;
-        while(iterator.hasNext()){
-            if(iterator.next().equals(number)){
-                return index;
-            }
-            index++;
-        }
-        return -1;
+        System.out.println(ans);
     }
 }
