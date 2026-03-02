@@ -1,45 +1,40 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M, result[];
-	static List<Integer> list;
-	static StringBuilder sb;
-	
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		sb = new StringBuilder();
-		
-		N = sc.nextInt();
-		M = sc.nextInt();
-		
-		list = new ArrayList<Integer>();
-		result = new int[M];
-		
-		for(int i=0;i<N;i++) {
-			list.add(sc.nextInt());
-		}
-		Collections.sort(list);
-		comb(0, 0);
-		
-		System.out.println(sb.toString());
-	}
-	
-	public static void comb(int idx, int start) {
-		if(idx == M) {
-			for(int i=0;i<M;i++) {
-				sb.append(result[i] + " ");
-			}
-			sb.append('\n');
-			return;
-		}
-		
-		for(int i = start;i<N;i++) {
-			result[idx] = list.get(i);
-			comb(idx+1, i+1);
-		}
-	}
-
+    public static int n, m, result[], number[];
+    public static StringBuilder sb;
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        number = new int[n];
+        result = new int[m];
+        sb = new StringBuilder();
+        st = new StringTokenizer(br.readLine());
+        for(int i = 0; i < n; i++){
+            number[i] = Integer.parseInt(st.nextToken());
+        }
+        Arrays.sort(number);
+        comb(0, 0);
+        System.out.println(sb);
+    }
+    public static void comb(int idx, int start){
+        if(idx == m){
+            for(int i = 0; i < m; i++){
+                sb.append(result[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+        for(int i = start; i < n; i++){
+            result[idx] = number[i];
+            comb(idx + 1, i + 1);
+        }
+    }
 }
