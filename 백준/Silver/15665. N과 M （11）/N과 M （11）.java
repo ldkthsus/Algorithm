@@ -9,7 +9,7 @@ import java.util.StringTokenizer;
 public class Main {
     public static int n, m, number[], result[];
     public static StringBuilder sb;
-    public static Map<String, Integer> map;
+    public static Map<Integer, Integer> map;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -17,13 +17,21 @@ public class Main {
         st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
-        number = new int[n];
-        result = new int[m];
         sb = new StringBuilder();
         map = new HashMap<>();
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < n; i++) {
-            number[i] = Integer.parseInt(st.nextToken());
+            int num = Integer.parseInt(st.nextToken());
+            if (!map.containsKey(num)) {
+                map.put(num, 1);
+            }
+        }
+        number = new int[map.size()];
+        result = new int[m];
+        int idx = 0;
+        for (int key : map.keySet()) {
+            number[idx] = key;
+            idx++;
         }
         Arrays.sort(number);
         perm(0);
@@ -32,17 +40,13 @@ public class Main {
 
     public static void perm(int idx) {
         if (idx == m) {
-            StringBuilder temp = new StringBuilder();
             for (int i = 0; i < m; i++) {
-                temp.append(result[i]).append(" ");
+                sb.append(result[i]).append(" ");
             }
-            if (!map.containsKey(temp.toString())) {
-                map.put(temp.toString(), 1);
-                sb.append(temp).append("\n");
-            }
+            sb.append("\n");
             return;
         }
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < number.length; i++) {
             result[idx] = number[i];
             perm(idx + 1);
         }
