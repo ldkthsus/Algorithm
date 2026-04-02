@@ -7,48 +7,42 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int n = Integer.parseInt(br.readLine());
-        int idx = 0;
-        int num = 1;
-
         Stack<Integer> stack = new Stack<>();
         StringBuilder sb = new StringBuilder();
-
+        boolean check = true;
+        int number = 1;
         int arr[] = new int[n];
         for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
+            int num = Integer.parseInt(br.readLine());
+            arr[i] = num;
         }
-
+        int idx = 0;
         while (true) {
             if (idx == n) {
                 break;
             }
-            int target = arr[idx];
             if (stack.isEmpty()) {
-                stack.push(num);
+                stack.push(number);
+                number++;
                 sb.append("+").append("\n");
-                num++;
             } else {
-                if (stack.peek() == target) {
+                int top = stack.peek();
+                if (top == arr[idx]) {
                     stack.pop();
                     sb.append("-").append("\n");
                     idx++;
-                } else if (stack.peek() < target) {
-                    stack.push(num);
+                } else if (top < arr[idx]) {
+                    stack.push(number);
+                    number++;
                     sb.append("+").append("\n");
-                    num++;
                 } else {
-                    int val = stack.pop();
-                    if (target == val) {
-                        sb.append("-").append("\n");
-                        idx++;
-                    } else {
-                        sb = new StringBuilder();
-                        sb.append("NO");
-                        break;
-                    }
+                    check = false;
+                    break;
                 }
             }
         }
-        System.out.println(sb);
+        if (!check)
+            System.out.println("NO");
+        else System.out.println(sb);
     }
 }
