@@ -1,18 +1,9 @@
-select month(start_date) as month, car_id, count(*) as records
-from car_rental_company_rental_history
-where start_date between '2022-08-01' and '2022-10-31' 
-and car_id in (select car_id from car_rental_company_rental_history
-where start_date between '2022-08-01' and '2022-10-31'
-group by car_id
-having count(car_id) >= 5)
-group by month, car_id
-having records > 0
-order by month(start_date), car_id desc;
-
-
-# SELECT month(start_date) as month, car_id, count(history_id) as records
-# from CAR_RENTAL_COMPANY_RENTAL_HISTORY
-# where start_date>="2022-08-01" and start_date<"2022-11-01" and car_id in (select car_id from CAR_RENTAL_COMPANY_RENTAL_HISTORY where start_date>="2022-08-01" and start_date<"2022-11-01" group by car_id having count(history_id)>4) 
-# group by month, car_id
-# having records >0
-# order by month, car_id desc
+SELECT MONTH(START_DATE) AS MONTH, CAR_ID, COUNT(*) AS RECORDS
+FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+WHERE CAR_ID IN (SELECT CAR_ID FROM CAR_RENTAL_COMPANY_RENTAL_HISTORY
+                 WHERE MONTH(START_DATE) BETWEEN 8 AND 10
+                GROUP BY CAR_ID
+                HAVING COUNT(CAR_ID) >= 5) /*CAR_ID 별로 그룹화 했을 때 8월이랑 10사이에 총 대여 일수가 5일 이상*/
+AND MONTH(START_DATE) BETWEEN 8 AND 10
+GROUP BY CAR_ID, MONTH(START_DATE)
+ORDER BY MONTH(START_DATE) ASC, CAR_ID DESC;
