@@ -1,6 +1,6 @@
 # [level 3] 조건에 맞는 사용자 정보 조회하기 - 164670 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/164670) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/164670#) 
 
 ### 성능 요약
 
@@ -12,11 +12,11 @@
 
 ### 채점결과
 
-Empty
+합계: 100.0 / 100.0
 
 ### 제출 일자
 
-2025년 10월 17일 23:12:25
+2026년 04월 07일 18:34:43
 
 ### 문제 설명
 
