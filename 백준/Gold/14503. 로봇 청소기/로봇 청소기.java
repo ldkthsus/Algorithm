@@ -1,98 +1,87 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
+import java.util.ArrayDeque;
+import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
-	static int N, M, map[][], cnt, nexti, nextj;
-	static int del[][] = { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-	static point ro;
-	static boolean check;
+    public static int di[] = {-1, 0, 1, 0}; //북, 동, 남, 서
+    public static int dj[] = {0, 1, 0, -1};
+    public static int n, m, cnt;
+    public static int arr[][];
+    public static boolean visited[][];
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
-		st = new StringTokenizer(br.readLine());
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st;
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        arr = new int[n][m];
+        visited = new boolean[n][m];
+        st = new StringTokenizer(br.readLine());
+        int si = Integer.parseInt(st.nextToken());
+        int sj = Integer.parseInt(st.nextToken());
+        int dir = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                arr[i][j] = Integer.parseInt(st.nextToken());
+            }
+        }
+        robot(si, sj, dir);
+        System.out.println(cnt);
+    }
 
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+    public static void robot(int i, int j, int dir) {
+        Queue<Point> queue = new ArrayDeque<>();
+        queue.offer(new Point(i, j, dir));
+        if (arr[i][j] == 0) {
+            visited[i][j] = true;
+            cnt++;
+        } else {
+            return;
+        }
+        while (!queue.isEmpty()) {
+            Point now = queue.poll();
+            int direction = now.dir;
+            boolean check = false;
 
-		st = new StringTokenizer(br.readLine());
+            for (int d = 0; d < 4; d++) {
+                direction = (direction + 3) % 4;
+                int ni = now.i + di[direction];
+                int nj = now.j + dj[direction];
 
-		int roi = Integer.parseInt(st.nextToken());
-		int roj = Integer.parseInt(st.nextToken());
-		int direct = Integer.parseInt(st.nextToken());
-		ro = new point(roi, roj, direct);
+                if (ni < 0 || ni >= n || nj < 0 || nj >= m || visited[ni][nj] || arr[ni][nj] == 1)
+                    continue;
 
-		map = new int[N][M];
-		for (int i = 0; i < N; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < M; j++) {
-				map[i][j] = Integer.parseInt(st.nextToken());
-			}
-		}
-		check = false;
-		while (true) {
-			clean(ro.i, ro.j);
+                queue.offer(new Point(ni, nj, direction));
+                visited[ni][nj] = true;
+                cnt++;
+                check = true;
+                break;
+            }
+            if (!check) {
+                int ni = now.i - di[now.dir];
+                int nj = now.j - dj[now.dir];
 
-			for (int d = 0; d < 4; d++) {
-				nexti = ro.i + del[d][0];
-				nextj = ro.j + del[d][1];
+                if (ni < 0 || ni >= n || nj < 0 || nj >= m || arr[ni][nj] == 1)
+                    break;
+                queue.offer(new Point(ni, nj, now.dir));
+            }
+        }
+    }
 
-				if (boundary(nexti, nextj) && map[nexti][nextj] == 0) {
-					check = true;
-					break;
-				}
-			}
-			if (check) {
-				ro.d = (ro.d - 1);
-				if (ro.d == -1)
-					ro.d = 3;
-				int afteri = ro.i + del[ro.d][0];
-				int afterj = ro.j + del[ro.d][1];
-				if (map[afteri][afterj] == 0) {
-					ro.i = afteri;
-					ro.j = afterj;
-				}
+    public static class Point {
+        int i;
+        int j;
+        int dir;
 
-			} else {
-				int dir = (ro.d + 2) % 4;
-				int afteri = ro.i + del[dir][0];
-				int afterj = ro.j + del[dir][1];
-				if (boundary(afteri, afterj) && map[afteri][afterj] != 1) {
-					ro.i = afteri;
-					ro.j = afterj;
-				} else {
-					break;
-				}
-			}
-			check = false;
-		}
-		System.out.println(cnt);
-	}
-
-	public static boolean boundary(int i, int j) {
-		if (i < 0 || i >= N || j < 0 || j >= M)
-			return false;
-		else
-			return true;
-	}
-
-	public static void clean(int i, int j) {
-		if (map[i][j] == 0) {
-			map[i][j] = 2;
-			cnt++;
-		}
-	}
-
-	public static class point {
-		int i, j, d;
-
-		public point(int i, int j, int d) {
-			this.i = i;
-			this.j = j;
-			this.d = d;
-		}
-	}
+        public Point(int i, int j, int d) {
+            this.i = i;
+            this.j = j;
+            this.dir = d;
+        }
+    }
 }
