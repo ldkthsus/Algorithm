@@ -33,7 +33,7 @@ public class Main {
         visited = new boolean[n][m];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
-                dfs(i, j, 0, 0);
+                dfs(i, j, arr[i][j], 1);
                 check(i, j);
             }
         }
