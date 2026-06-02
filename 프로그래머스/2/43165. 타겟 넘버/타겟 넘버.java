@@ -2,27 +2,22 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    public static int n, ans, cnt, num[];
+    public static int cnt, n;
     public int solution(int[] numbers, int target) {
         int answer = 0;
         n = numbers.length;
-        ans = target;
-        num = new int[n];
-        for(int i = 0; i < n; i++){
-            num[i] = numbers[i];
-        }
-        dfs(0, 0);
+        dfs(numbers, target, 0, 0);
         answer = cnt;
         return answer;
     }
-    public static void dfs(int idx, int sum){
+    public static void dfs(int [] arr, int target, int idx, int sum){
         if(idx == n){
-            if(sum == ans){
-            cnt++;
+            if(sum == target){
+                cnt++;
             }
             return;
         }
-        dfs(idx + 1, sum + num[idx]);
-        dfs(idx + 1, sum - num[idx]);
+        dfs(arr, target, idx + 1, sum + arr[idx]);
+        dfs(arr, target, idx + 1, sum - arr[idx]);
     }
 }
