@@ -2,42 +2,26 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    public static int N;
-    public static List<Integer> graph[];
     public static boolean visited[];
+    public static int cnt = 0;
     public int solution(int n, int[][] computers) {
         int answer = 0;
-        N = n;
-        graph = new List[N];
-        visited = new boolean[N];
-        for(int i = 0; i < N; i++){
-            graph[i] = new ArrayList<>();
-        }
-        for(int i = 0; i < computers.length; i++){
-            for(int j = 0; j < computers[i].length; j++){
-                if(i == j)
-                    continue;
-                
-                if(computers[i][j] == 1){
-                    graph[i].add(j);
-                }
-            }
-        }
-        
-        for(int i = 0; i < N; i++){
+        visited = new boolean[n];
+        for(int i = 0; i < n; i++){
             if(!visited[i]){
-                dfs(i);
-                answer++;
+                dfs(computers, i, n);
+                cnt++;
             }
         }
+        answer = cnt;
         return answer;
     }
-    public static void dfs(int idx){
+    public static void dfs(int [][]com, int idx, int n){
         visited[idx] = true;
-        
-        for(int i = 0; i < graph[idx].size(); i++){
-            if(!visited[graph[idx].get(i)])
-                dfs(graph[idx].get(i));
+        for(int i = 0; i < n; i++){
+            if(com[idx][i] == 1 && !visited[i]){
+                dfs(com, i, n);
+            }
         }
     }
 }
