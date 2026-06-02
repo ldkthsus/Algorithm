@@ -2,51 +2,56 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    public static int n, min;
     public static boolean visited[];
-    public static String end;
-    
+    public static int min;
     public int solution(String begin, String target, String[] words) {
         int answer = 0;
-        n = words.length;
-        visited = new boolean [n];
-        end = target;
+        visited = new boolean[words.length];
         min = Integer.MAX_VALUE;
-        for(int i = 0; i < n; i++){
-            String str = words[i];
+        for(int i = 0; i < words.length; i++){
+            String wr = words[i];
             int cnt = 0;
-            for(int j = 0; j < str.length(); j++){
-                if(begin.charAt(j) == str.charAt(j))
+            for(int j = 0; j < wr.length(); j++){
+                char stan = begin.charAt(j);
+                char now = wr.charAt(j);
+                
+                if(stan != now)
                     cnt++;
             }
-            if(cnt == str.length() - 1){
+            if(cnt == 1){
                 Arrays.fill(visited, false);
-                dfs(i, words, 1);
+                dfs(words, target, i, 1);
             }
         }
         if(min == Integer.MAX_VALUE)
-            min = 0;
-        answer = min;
+            answer = 0;
+        else answer = min;
         return answer;
     }
-    public static void dfs(int idx, String [] words, int cnt){
+    public static void dfs(String []words, String target, int idx, int cnt){
         visited[idx] = true;
-        if(words[idx].equals(end)){
-            min = Math.min(min, cnt);
+        if(words[idx].equals(target)){
+            min = Math.min(cnt, min);
+            return;
         }
-        for(int i = 0; i < n; i++){
-            if(!visited[i]){
-                String str = words[i];
-                int count = 0;
-                for(int j = 0; j < str.length(); j++){
-                    if(words[idx].charAt(j) == str.charAt(j))
-                        count++;
-                }
-                if(count == str.length() - 1){
-                    dfs(i, words, cnt + 1);
-                    visited[i] = false;
+        for(int i = 0; i < words.length; i++){
+            if(visited[i])
+                continue;
+            String wr = words[i];
+            int count = 0;
+            
+            for(int j = 0; j < wr.length(); j++){
+                char stan = words[idx].charAt(j);
+                char now = wr.charAt(j);
+                
+                if(stan != now){
+                    count++;
                 }
             }
+            if(count == 1){
+                dfs(words, target, i, cnt + 1);
+            }
+            visited[i] = false;
         }
     }
 }
