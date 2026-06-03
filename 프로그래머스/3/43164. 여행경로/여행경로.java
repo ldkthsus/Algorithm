@@ -2,60 +2,57 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    public static int n;
-    public static StringBuilder sb;
     public static PriorityQueue<String> pq;
+    public static int n;
     public static boolean visited[];
+    public static StringBuilder sb;
     
     public String[] solution(String[][] tickets) {
-        sb = new StringBuilder();
-        pq = new PriorityQueue<>(new Comparator<String>(){
-            @Override
-            public int compare(String s1, String s2){
-                return s1.compareTo(s2);
-            }
-        });
+        pq = new PriorityQueue<>();
         n = tickets.length;
         visited = new boolean[n];
+        sb = new StringBuilder();
         for(int i = 0; i < n; i++){
             String start = tickets[i][0];
             if(start.equals("ICN")){
-                sb.setLength(0);
                 Arrays.fill(visited, false);
-                sb.append("ICN");
-                dfs(i, tickets, 1);
+                sb.setLength(0);
+                dfs(tickets, i, 1);
             }
         }
-        
         String ans = pq.poll();
-        int size = ans.length();        
-        String [] answer = new String [size / 3];
+        String answer[] = new String[ans.length() / 3];
         int idx = 0;
-        for(int i = 0; i < size; i+= 3){
-            StringBuilder temp = new StringBuilder();
-            for(int j = i; j < i + 3; j++){
-                temp.append(ans.charAt(j));
+        for(int i = 0; i < ans.length(); i += 3){
+            String str = "";
+            for(int j = 0; j < 3; j++){
+                str += String.valueOf(ans.charAt(i + j));
             }
-            answer[idx] = temp.toString();
+            answer[idx] = str;
             idx++;
         }
-
         return answer;
     }
-    public static void dfs(int idx, String [][] tickets, int cnt){
+    public static void dfs(String [][] tickets, int idx, int depth){
         visited[idx] = true;
-        sb.append(tickets[idx][1]);
-        if(cnt == n){
+        sb.append(tickets[idx][0]);
+        if(depth == n){
+            sb.append(tickets[idx][1]);
             pq.offer(sb.toString());
+            visited[idx] = false;
+            sb.delete(sb.length() - 6, sb.length());
             return;
         }
+        
         for(int i = 0; i < n; i++){
-            String next = tickets[idx][1];
-            if(next.equals(tickets[i][0]) && !visited[i]){
-                dfs(i, tickets, cnt + 1);
-                visited[i] = false;
-                sb.delete(sb.length() - 3, sb.length());
+            String now = tickets[idx][1];
+            String next = tickets[i][0];
+            
+            if(now.equals(next) && !visited[i]){
+                dfs(tickets, i, depth + 1);
             }
         }
+         visited[idx] = false;
+         sb.delete(sb.length() - 3, sb.length());
     }
 }
