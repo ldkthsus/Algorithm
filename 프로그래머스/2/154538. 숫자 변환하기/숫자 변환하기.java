@@ -12,7 +12,7 @@ class Solution {
     }
     public static void bfs(int x, int y, int n){
         Queue<Point> queue = new ArrayDeque<>();
-        boolean visited[] = new boolean[1000002];
+        boolean visited[] = new boolean[1000001];
         queue.offer(new Point(0, x));
         visited[x] = true;
         while(!queue.isEmpty()){
@@ -31,7 +31,7 @@ class Solution {
                     val = now.num * 3;
                 }
                 
-                if(val > 1000001 || visited[val])
+                if(val > 1000000 || visited[val])
                     continue;
                 queue.offer(new Point(now.cnt + 1, val));
                 visited[val] = true;
