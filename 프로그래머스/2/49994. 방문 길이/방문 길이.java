@@ -24,7 +24,7 @@ class Solution {
                 continue;
             String str = si + "," + sj + "," + ni + "," + nj;
             String st = ni + "," + nj + "," + si + "," + sj;
-            if(!board.containsKey(str) && !map.containsKey(st)){
+            if(!board.containsKey(str) && !board.containsKey(st)){
                 board.put(str, 1);
                 board.put(st, 1);
                 answer++;
